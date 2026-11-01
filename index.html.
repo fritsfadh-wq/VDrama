@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VDrama - Drama China</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f7f7f7;
+ color:#222;
+}
+header{
+ background:#e32636;
+ color:white;
+ padding:20px;
+}
+.logo{font-size:30px;font-weight:bold}
+header p{margin:5px 0 0}
+.search{padding:15px}
+.search input{
+ width:100%;padding:13px;
+ border:1px solid #ddd;
+ border-radius:9px;font-size:15px;
+}
+nav{
+ display:flex;gap:18px;overflow:auto;
+ padding:12px 15px;background:white;
+ white-space:nowrap;
+}
+nav a{color:#333;text-decoration:none;font-weight:bold}
+h2{padding:0 15px;font-size:20px}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;padding:0 15px 20px;
+}
+.drama{
+ background:white;border-radius:10px;
+ overflow:hidden;box-shadow:0 2px 7px #ddd;
+}
+.poster{
+ height:180px;background:#f2dada;
+ display:flex;align-items:center;
+ justify-content:center;text-align:center;
+ color:#b51e2b;font-weight:bold;
+ font-size:20px;padding:10px;
+}
+.drama h3{font-size:15px;margin:10px}
+.drama p{font-size:12px;color:#777;margin:10px}
+footer{
+ background:#222;color:white;
+ text-align:center;padding:20px;
+ margin-top:20px;font-size:13px;
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">VDRAMA</div>
+ <p>Drama China Favoritmu</p>
+</header>
+
+<div class="search">
+ <input type="search" id="cari"
+ placeholder="Cari drama favoritmu..."
+ oninput="cariDrama()">
+</div>
+
+<nav>
+ <a href="#">Beranda</a>
+ <a href="#romantis">Romantis</a>
+ <a href="#kerajaan">Kerajaan</a>
+ <a href="#aksi">Aksi</a>
+ <a href="#komedi">Komedi</a>
+</nav>
+
+<h2>Drama Terbaru</h2>
+
+<div class="grid" id="daftar">
+ <div class="drama" data-nama="cinta di musim semi">
+  <div class="poster">Cinta di Musim Semi</div>
+  <h3>Cinta di Musim Semi</h3>
+  <p>Romantis • Drama China</p>
+ </div>
+
+ <div class="drama" data-nama="raja naga">
+  <div class="poster">Raja Naga</div>
+  <h3>Raja Naga</h3>
+  <p>Aksi • Fantasi</p>
+ </div>
+
+ <div class="drama" data-nama="cinta kerajaan">
+  <div class="poster">Cinta Kerajaan</div>
+  <h3>Cinta Kerajaan</h3>
+  <p>Kerajaan • Romantis</p>
+ </div>
+
+ <div class="drama" data-nama="takdir sang putri">
+  <div class="poster">Takdir Sang Putri</div>
+  <h3>Takdir Sang Putri</h3>
+  <p>Drama • Sejarah</p>
+ </div>
+</div>
+
+<footer>
+ VDrama © 2026<br>
+ Drama China dengan Subtitle Indonesia
+</footer>
+
+<script>
+function cariDrama(){
+ const kata=document.getElementById('cari').value.toLowerCase();
+ document.querySelectorAll('.drama').forEach(item=>{
+  item.style.display=
+  item.dataset.nama.includes(kata)?"block":"none";
+ });
+}
+</script>
+
+</body>
+</html>
