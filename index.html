@@ -299,8 +299,6 @@ function beriRating(nilai){
   localStorage.setItem("favoritDrama", JSON.stringify(daftar));
   alert("Drama berhasil ditambahkan ke Favorit ❤️");
  }
-}
-
 function tampilkanFavorit(){
  const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
 
@@ -309,7 +307,6 @@ function tampilkanFavorit(){
  }else{
   alert("Drama Favorit ❤️\n\n" + daftar.join("\n"));
  }
-  }
 function openDrama(i){
  const d=data[i];
   activeDrama = d.title;
