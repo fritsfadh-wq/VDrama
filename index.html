@@ -193,7 +193,21 @@ body{padding-bottom:55px}
   <h2 id="detailTitle"></h2>
   <p id="detailCategory"></p>
   <p id="detailDesc"></p>
-  <h3>Daftar Episode</h3>
+<h3>Beri Rating Drama</h3>
+<div id="ratingBox" style="margin:15px 0;">
+  <div id="stars" style="font-size:32px;letter-spacing:5px;">
+    <span onclick="beriRating(1)">☆</span>
+    <span onclick="beriRating(2)">☆</span>
+    <span onclick="beriRating(3)">☆</span>
+    <span onclick="beriRating(4)">☆</span>
+    <span onclick="beriRating(5)">☆</span>
+  </div>
+  <p id="ratingText" style="color:#666;font-size:13px;">
+    Pilih bintang untuk memberi rating.
+  </p>
+</div>
+
+<h3>Daftar Episode</h3>
  </div>
  <div class="episodes" id="episodeList"></div>
 </div>
