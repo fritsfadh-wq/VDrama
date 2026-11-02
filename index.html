@@ -7,120 +7,165 @@
 <title>VDrama - Drama China</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f7f7f7;
- color:#222;
-}
-header{
- background:#e32636;
- color:white;
- padding:20px;
-}
-.logo{font-size:30px;font-weight:bold}
-header p{margin:5px 0 0}
-.search{padding:15px}
-.search input{
- width:100%;padding:13px;
- border:1px solid #ddd;
- border-radius:9px;font-size:15px;
-}
-nav{
- display:flex;gap:18px;overflow:auto;
- padding:12px 15px;background:white;
- white-space:nowrap;
-}
-nav a{color:#333;text-decoration:none;font-weight:bold}
-h2{padding:0 15px;font-size:20px}
-.grid{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;padding:0 15px 20px;
-}
-.drama{
- background:white;border-radius:10px;
- overflow:hidden;box-shadow:0 2px 7px #ddd;
-}
-.poster{
- height:180px;background:#f2dada;
- display:flex;align-items:center;
- justify-content:center;text-align:center;
- color:#b51e2b;font-weight:bold;
- font-size:20px;padding:10px;
-}
-.drama h3{font-size:15px;margin:10px}
-.drama p{font-size:12px;color:#777;margin:10px}
-footer{
- background:#222;color:white;
- text-align:center;padding:20px;
- margin-top:20px;font-size:13px;
-}
+body{margin:0;background:#fafafa;color:#222;font-family:Arial,sans-serif}
+header{background:#fff;padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;position:sticky;top:0;z-index:5}
+.logo{font-size:27px;font-weight:bold;color:#e32636}
+.search{padding:12px 15px;background:#fff}
+.search input{width:100%;padding:13px;border:1px solid #ddd;border-radius:25px;font-size:15px}
+nav{display:flex;gap:20px;overflow:auto;padding:14px;background:white;white-space:nowrap}
+nav button{border:0;background:none;font-weight:bold;color:#555;font-size:14px}
+nav button.active{color:#e32636}
+.hero{margin:15px;background:linear-gradient(120deg,#8e1524,#ef5864);padding:25px 20px;border-radius:14px;color:white;min-height:180px;display:flex;flex-direction:column;justify-content:center}
+.hero small{letter-spacing:2px}
+.hero h1{font-size:25px;margin:12px 0}
+.hero p{font-size:13px}
+.hero button,.watch{background:white;color:#d51f30;border:0;border-radius:20px;padding:11px 18px;font-weight:bold;align-self:flex-start}
+h2{font-size:19px;margin:22px 15px 12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:0 15px 20px}
+.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px #ddd;cursor:pointer}
+.poster{height:205px;display:flex;align-items:flex-end;padding:12px;color:white;font-weight:bold;font-size:19px;background:linear-gradient(145deg,#391c2b,#b94355)}
+.p2{background:linear-gradient(145deg,#162d49,#6386a8)}
+.p3{background:linear-gradient(145deg,#5a2536,#d28b75)}
+.p4{background:linear-gradient(145deg,#243b32,#83a18a)}
+.card h3{font-size:14px;margin:10px}
+.card p{font-size:12px;color:#888;margin:0 10px 12px}
+#detail{display:none;position:fixed;inset:0;background:#fafafa;z-index:10;overflow:auto}
+.detailTop{padding:18px;background:#fff}
+.back{border:0;background:#eee;padding:10px 15px;border-radius:20px}
+.detailPoster{height:220px;margin-top:15px;border-radius:12px;background:linear-gradient(130deg,#451c2b,#d64c60);display:flex;align-items:center;justify-content:center;color:white;font-size:25px;font-weight:bold;text-align:center;padding:20px}
+.description{padding:15px}
+.description p{color:#666;line-height:1.6;font-size:14px}
+.episodes{padding:0 15px 30px}
+.episode{padding:15px;background:white;border:1px solid #eee;margin-bottom:9px;border-radius:9px;display:flex;justify-content:space-between;align-items:center}
+.episode button{border:0;background:#e32636;color:white;padding:9px 14px;border-radius:7px}
+footer{text-align:center;padding:25px;background:#222;color:white;font-size:12px}
+nav.bottom{position:fixed;bottom:0;left:0;right:0;justify-content:space-around;border-top:1px solid #eee;z-index:4}
+nav.bottom button{font-size:12px}
+body{padding-bottom:55px}
 </style>
 </head>
 <body>
 
 <header>
  <div class="logo">VDRAMA</div>
- <p>Drama China Favoritmu</p>
+ <span>🎬</span>
 </header>
 
 <div class="search">
- <input type="search" id="cari"
- placeholder="Cari drama favoritmu..."
- oninput="cariDrama()">
+ <input id="search" placeholder="Cari drama favoritmu..." oninput="searchDrama()">
 </div>
 
-<nav>
- <a href="#">Beranda</a>
- <a href="#romantis">Romantis</a>
- <a href="#kerajaan">Kerajaan</a>
- <a href="#aksi">Aksi</a>
- <a href="#komedi">Komedi</a>
+<nav id="categories">
+ <button class="active" onclick="filterDrama('Semua',this)">Semua</button>
+ <button onclick="filterDrama('Romantis',this)">Romantis</button>
+ <button onclick="filterDrama('Kerajaan',this)">Kerajaan</button>
+ <button onclick="filterDrama('Aksi',this)">Aksi</button>
+ <button onclick="filterDrama('Komedi',this)">Komedi</button>
 </nav>
 
-<h2>Drama Terbaru</h2>
+<section class="hero">
+ <small>DRAMA PILIHAN</small>
+ <h1>Kisah Cinta di Istana</h1>
+ <p>Drama romantis • Subtitle Indonesia</p>
+ <button onclick="openDrama(2)">Lihat Drama →</button>
+</section>
 
-<div class="grid" id="daftar">
- <div class="drama" data-nama="cinta di musim semi">
-  <div class="poster">Cinta di Musim Semi</div>
-  <h3>Cinta di Musim Semi</h3>
-  <p>Romantis • Drama China</p>
+<h2>🔥 Drama Populer</h2>
+
+<div class="grid" id="dramas">
+ <div class="card" data-category="Romantis" onclick="openDrama(0)">
+  <div class="poster">Cinta Sang Kaisar</div>
+  <h3>Cinta Sang Kaisar</h3>
+  <p>Romantis • 24 Episode</p>
  </div>
-
- <div class="drama" data-nama="raja naga">
-  <div class="poster">Raja Naga</div>
+ <div class="card" data-category="Aksi" onclick="openDrama(1)">
+  <div class="poster p2">Raja Naga</div>
   <h3>Raja Naga</h3>
-  <p>Aksi • Fantasi</p>
+  <p>Aksi • 30 Episode</p>
  </div>
+ <div class="card" data-category="Kerajaan" onclick="openDrama(2)">
+  <div class="poster p3">Cinta di Istana</div>
+  <h3>Cinta di Istana</h3>
+  <p>Kerajaan • 36 Episode</p>
+ </div>
+ <div class="card" data-category="Komedi" onclick="openDrama(3)">
+  <div class="poster p4">Jodoh Tak Terduga</div>
+  <h3>Jodoh Tak Terduga</h3>
+  <p>Komedi • 20 Episode</p>
+ </div>
+</div>
 
- <div class="drama" data-nama="cinta kerajaan">
-  <div class="poster">Cinta Kerajaan</div>
-  <h3>Cinta Kerajaan</h3>
-  <p>Kerajaan • Romantis</p>
+<div id="detail">
+ <div class="detailTop">
+  <button class="back" onclick="closeDrama()">← Kembali</button>
+  <div class="detailPoster" id="detailPoster">Drama</div>
  </div>
-
- <div class="drama" data-nama="takdir sang putri">
-  <div class="poster">Takdir Sang Putri</div>
-  <h3>Takdir Sang Putri</h3>
-  <p>Drama • Sejarah</p>
+ <div class="description">
+  <h2 id="detailTitle"></h2>
+  <p id="detailCategory"></p>
+  <p id="detailDesc"></p>
+  <h3>Daftar Episode</h3>
  </div>
+ <div class="episodes" id="episodeList"></div>
 </div>
 
 <footer>
  VDrama © 2026<br>
- Drama China dengan Subtitle Indonesia
+ Drama China • Subtitle Indonesia
 </footer>
 
+<nav class="bottom">
+ <button onclick="window.scrollTo(0,0)">🏠 Beranda</button>
+ <button onclick="document.getElementById('search').focus()">🔎 Cari</button>
+ <button onclick="alert('Fitur favorit akan segera hadir')">❤️ Favorit</button>
+</nav>
+
 <script>
-function cariDrama(){
- const kata=document.getElementById('cari').value.toLowerCase();
- document.querySelectorAll('.drama').forEach(item=>{
-  item.style.display=
-  item.dataset.nama.includes(kata)?"block":"none";
+const data=[
+ {title:"Cinta Sang Kaisar",category:"Romantis",count:24,desc:"Kisah cinta yang penuh perjuangan dan rahasia di tengah kehidupan kerajaan."},
+ {title:"Raja Naga",category:"Aksi",count:30,desc:"Petualangan seorang pemuda menghadapi berbagai tantangan dan misteri."},
+ {title:"Cinta di Istana",category:"Kerajaan",count:36,desc:"Kisah cinta dan intrik yang terjadi di dalam istana."},
+ {title:"Jodoh Tak Terduga",category:"Komedi",count:20,desc:"Pertemuan tidak terduga yang membawa banyak kejadian lucu."}
+];
+
+function openDrama(i){
+ const d=data[i];
+ document.getElementById('detail').style.display='block';
+ document.getElementById('detailTitle').textContent=d.title;
+ document.getElementById('detailPoster').textContent=d.title;
+ document.getElementById('detailCategory').textContent=d.category+" • "+d.count+" Episode";
+ document.getElementById('detailDesc').textContent=d.desc;
+ const list=document.getElementById('episodeList');
+ list.innerHTML='';
+ for(let n=1;n<=d.count;n++){
+  const item=document.createElement('div');
+  item.className='episode';
+  const label=document.createElement('span');
+  label.textContent='Episode '+n;
+  const btn=document.createElement('button');
+  btn.textContent='Tonton';
+  btn.onclick=()=>alert('Episode belum tersedia. Video resmi akan ditambahkan setelah tersedia lisensinya.');
+  item.append(label,btn);
+  list.appendChild(item);
+ }
+ window.scrollTo(0,0);
+}
+function closeDrama(){
+ document.getElementById('detail').style.display='none';
+}
+function searchDrama(){
+ const q=document.getElementById('search').value.toLowerCase();
+ document.querySelectorAll('.card').forEach(card=>{
+  card.style.display=card.textContent.toLowerCase().includes(q)?'block':'none';
+ });
+}
+function filterDrama(category,button){
+ document.querySelectorAll('#categories button').forEach(b=>b.classList.remove('active'));
+ button.classList.add('active');
+ document.querySelectorAll('.card').forEach(card=>{
+  card.style.display=(category==='Semua'||card.dataset.category===category)?'block':'none';
  });
 }
 </script>
-
 </body>
 </html>
