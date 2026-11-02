@@ -279,6 +279,29 @@ function beriRating(nilai){
  localStorage.setItem("rating_" + activeDrama, nilai);
  tampilkanRating();
 }
+  function tambahFavorit(){
+ const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
+
+ if(!activeDrama) return;
+
+ if(daftar.includes(activeDrama)){
+  alert("Drama ini sudah ada di Favorit ❤️");
+ }else{
+  daftar.push(activeDrama);
+  localStorage.setItem("favoritDrama", JSON.stringify(daftar));
+  alert("Drama berhasil ditambahkan ke Favorit ❤️");
+ }
+}
+
+function tampilkanFavorit(){
+ const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
+
+ if(daftar.length === 0){
+  alert("Belum ada drama favorit.");
+ }else{
+  alert("Drama Favorit ❤️\n\n" + daftar.join("\n"));
+ }
+  }
 function openDrama(i){
  const d=data[i];
   activeDrama = d.title;
