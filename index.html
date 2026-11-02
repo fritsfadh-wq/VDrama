@@ -250,9 +250,31 @@ const data=[
   {title:"Jodoh Tak Terduga",category:"Komedi",count:20,desc:"Pertemuan tidak terduga yang membawa banyak kejadian lucu.",image:"./jodoh-tak-terduga.png"}
  }
 ];
+let activeDrama = "";
+  function tampilkanRating(){
+ const nilai = localStorage.getItem("rating_" + activeDrama) || 0;
+ const bintang = document.querySelectorAll("#stars span");
 
+ bintang.forEach((item, index)=>{
+  item.textContent = index < nilai ? "★" : "☆";
+  item.style.color = "#f5a623";
+ });
+
+ document.getElementById("ratingText").textContent =
+ nilai > 0 ? "Rating kamu: " + nilai + " dari 5 bintang" :
+ "Pilih bintang untuk memberi rating.";
+}
+
+function beriRating(nilai){
+ if(!activeDrama) return;
+
+ localStorage.setItem("rating_" + activeDrama, nilai);
+ tampilkanRating();
+}
 function openDrama(i){
  const d=data[i];
+  activeDrama = d.title;
+tampilkanRating();
  document.getElementById('detail').style.display='block';
  document.getElementById('detailTitle').textContent=d.title;
  document.getElementById('detailPoster').innerHTML =
