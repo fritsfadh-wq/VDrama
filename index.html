@@ -298,15 +298,76 @@ function beriRating(nilai){
   daftar.push(activeDrama);
   localStorage.setItem("favoritDrama", JSON.stringify(daftar));
   alert("Drama berhasil ditambahkan ke Favorit ❤️");
- }
-function tampilkanFavorit(){
+ function tambahFavorit(){
  const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
 
- if(daftar.length === 0){
-  alert("Belum ada drama favorit.");
+ if(!activeDrama) return;
+
+ if(daftar.includes(activeDrama)){
+  alert("Drama ini sudah ada di Favorit ❤️");
  }else{
-  alert("Drama Favorit ❤️\n\n" + daftar.join("\n"));
+  daftar.push(activeDrama);
+  localStorage.setItem("favoritDrama", JSON.stringify(daftar));
+  alert("Drama berhasil ditambahkan ke Favorit ❤️");
  }
+}
+
+function tampilkanFavorit(){
+ const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
+ const halaman = document.getElementById("favoritePage");
+ const list = document.getElementById("favoriteList");
+
+ halaman.style.display = "block";
+ halaman.style.position = "fixed";
+ halaman.style.inset = "0";
+ halaman.style.zIndex = "20";
+ halaman.style.overflowY = "auto";
+ list.innerHTML = "";
+
+ if(daftar.length === 0){
+  list.textContent = "Belum ada drama favorit ❤️";
+  return;
+ }
+
+ daftar.forEach(judul=>{
+  const index = data.findIndex(d=>d.title === judul);
+  if(index === -1) return;
+
+  const d = data[index];
+  const kartu = document.createElement("div");
+  kartu.style.cssText = "background:#f8f8f8;padding:12px;margin:10px 0;border-radius:10px;";
+
+  const gambar = document.createElement("img");
+  gambar.src = d.image;
+  gambar.style.cssText = "width:100%;height:180px;object-fit:contain;";
+
+  const nama = document.createElement("h3");
+  nama.textContent = d.title;
+
+  const tombol = document.createElement("button");
+  tombol.textContent = "Lihat Drama";
+  tombol.onclick = ()=>{
+   halaman.style.display = "none";
+   openDrama(index);
+  };
+
+  const hapus = document.createElement("button");
+  hapus.textContent = "Hapus ❤️";
+  hapus.style.cssText = "background:#e32636;color:white;padding:10px;border:0;border-radius:7px;margin-left:8px;";
+  hapus.onclick = ()=>{
+   const baru = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
+   localStorage.setItem("favoritDrama", JSON.stringify(baru.filter(x=>x !== judul)));
+   tampilkanFavorit();
+  };
+
+  kartu.append(gambar,nama,tombol,hapus);
+  list.appendChild(kartu);
+ });
+}
+
+function tutupFavorit(){
+ document.getElementById("favoritePage").style.display = "none";
+}
 function openDrama(i){
  const d=data[i];
   activeDrama = d.title;
