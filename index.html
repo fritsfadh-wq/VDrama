@@ -144,17 +144,42 @@ body{padding-bottom:55px}
 
 <script>
 const data=[
- {title:"Cinta Sang Kaisar",category:"Romantis",count:24,desc:"Kisah cinta yang penuh perjuangan dan rahasia di tengah kehidupan kerajaan."},
- {title:"Raja Naga",category:"Aksi",count:30,desc:"Petualangan seorang pemuda menghadapi berbagai tantangan dan misteri."},
- {title:"Cinta di Istana",category:"Kerajaan",count:36,desc:"Kisah cinta dan intrik yang terjadi di dalam istana."},
- {title:"Jodoh Tak Terduga",category:"Komedi",count:20,desc:"Pertemuan tidak terduga yang membawa banyak kejadian lucu."}
+ {
+  title:"Cinta Sang Kaisar",
+  category:"Romantis",
+  count:24,
+  desc:"Kisah cinta yang penuh perjuangan dan rahasia di tengah kehidupan kerajaan.",
+  image:"./cinta-sang-kaisar.png"
+ },
+ {
+  title:"Raja Naga",
+  category:"Aksi",
+  count:30,
+  desc:"Petualangan seorang pemuda menghadapi berbagai tantangan dan misteri.",
+  image:"./raja-naga.png"
+ },
+ {
+  title:"Cinta di Istana",
+  category:"Kerajaan",
+  count:36,
+  desc:"Kisah cinta dan intrik yang terjadi di dalam istana.",
+  image:"./cinta-di-istana.png"
+ },
+ {
+  title:"Jodoh Tak Terduga",
+  category:"Komedi",
+  count:20,
+  desc:"Pertemuan tidak terduga yang membawa banyak kejadian lucu.",
+  image:""
+ }
 ];
 
 function openDrama(i){
  const d=data[i];
  document.getElementById('detail').style.display='block';
  document.getElementById('detailTitle').textContent=d.title;
- document.getElementById('detailPoster').textContent=d.title;
+ document.getElementById('detailPoster').innerHTML =
+ `<img src="${d.image}" alt="${d.title}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
  document.getElementById('detailCategory').textContent=d.category+" • "+d.count+" Episode";
  document.getElementById('detailDesc').textContent=d.desc;
  const list=document.getElementById('episodeList');
