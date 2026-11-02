@@ -267,11 +267,12 @@ const data=[
    }
 ];
 let activeDrama = "";
-  function tampilkanRating(){
+
+function tampilkanRating(){
  const nilai = localStorage.getItem("rating_" + activeDrama) || 0;
  const bintang = document.querySelectorAll("#stars span");
 
- bintang.forEach((item, index)=>{
+ bintang.forEach((item,index)=>{
   item.textContent = index < nilai ? "★" : "☆";
   item.style.color = "#f5a623";
  });
@@ -283,11 +284,11 @@ let activeDrama = "";
 
 function beriRating(nilai){
  if(!activeDrama) return;
-
- localStorage.setItem("rating_" + activeDrama, nilai);
+ localStorage.setItem("rating_" + activeDrama,nilai);
  tampilkanRating();
 }
-  function tambahFavorit(){
+
+function tambahFavorit(){
  const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
 
  if(!activeDrama) return;
@@ -296,18 +297,7 @@ function beriRating(nilai){
   alert("Drama ini sudah ada di Favorit ❤️");
  }else{
   daftar.push(activeDrama);
-  localStorage.setItem("favoritDrama", JSON.stringify(daftar));
-  alert("Drama berhasil ditambahkan ke Favorit ❤️");
- function tambahFavorit(){
- const daftar = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
-
- if(!activeDrama) return;
-
- if(daftar.includes(activeDrama)){
-  alert("Drama ini sudah ada di Favorit ❤️");
- }else{
-  daftar.push(activeDrama);
-  localStorage.setItem("favoritDrama", JSON.stringify(daftar));
+  localStorage.setItem("favoritDrama",JSON.stringify(daftar));
   alert("Drama berhasil ditambahkan ke Favorit ❤️");
  }
 }
@@ -356,7 +346,7 @@ function tampilkanFavorit(){
   hapus.style.cssText = "background:#e32636;color:white;padding:10px;border:0;border-radius:7px;margin-left:8px;";
   hapus.onclick = ()=>{
    const baru = JSON.parse(localStorage.getItem("favoritDrama") || "[]");
-   localStorage.setItem("favoritDrama", JSON.stringify(baru.filter(x=>x !== judul)));
+   localStorage.setItem("favoritDrama",JSON.stringify(baru.filter(x=>x !== judul)));
    tampilkanFavorit();
   };
 
