@@ -44,7 +44,28 @@ h2{font-size:19px;margin:22px 15px 12px}
 #detail{display:none;position:fixed;inset:0;background:#fafafa;z-index:10;overflow:auto}
 .detailTop{padding:18px;background:#fff}
 .back{border:0;background:#eee;padding:10px 15px;border-radius:20px}
-.detailPoster{height:220px;margin-top:15px;border-radius:12px;background:linear-gradient(130deg,#451c2b,#d64c60);display:flex;align-items:center;justify-content:center;color:white;font-size:25px;font-weight:bold;text-align:center;padding:20px}
+.detailPoster{
+ height:350px;
+ margin-top:15px;
+ border-radius:12px;
+ overflow:hidden;
+ background:#eee;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:white;
+ font-size:25px;
+ font-weight:bold;
+ text-align:center;
+ padding:0;
+}
+.detailPoster img{
+ width:100%;
+ height:100%;
+ object-fit:contain;
+ display:block;
+ border-radius:12px;
+}
 .description{padding:15px}
 .description p{color:#666;line-height:1.6;font-size:14px}
 .episodes{padding:0 15px 30px}
