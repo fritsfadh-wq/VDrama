@@ -124,6 +124,9 @@ body{padding-bottom:55px}
 <header>
  <div class="logo">VDRAMA</div>
  <span>🎬</span>
+ <button onclick="bukaAkun()" style="background:#e32636;color:white;border:0;padding:9px 14px;border-radius:8px;">
+  👤 Akun
+ </button>
 </header>
 
 <div class="search">
@@ -228,7 +231,19 @@ style="background:#e32636;color:white;padding:12px 18px;border:0;border-radius:8
  VDrama © 2026<br>
  Drama China • Subtitle Indonesia
 </footer>
-
+<div id="akunBox" style="display:none;position:fixed;inset:0;background:#0009;z-index:10;align-items:center;justify-content:center;">
+ <div style="background:white;padding:22px;border-radius:12px;width:85%;max-width:350px;">
+  <h2 style="color:#e32636;">Akun VDrama</h2>
+  <input id="emailAkun" type="email" placeholder="Email" style="width:100%;padding:10px;margin:6px 0;">
+  <input id="passwordAkun" type="password" placeholder="Kata sandi" style="width:100%;padding:10px;margin:6px 0;">
+  <input id="usernameAkun" type="text" placeholder="Nama pengguna" style="width:100%;padding:10px;margin:6px 0;">
+  <button onclick="daftarAkun()">Daftar</button>
+  <button onclick="masukAkun()">Login</button>
+  <button onclick="keluarAkun()">Logout</button>
+  <button onclick="tutupAkun()">Tutup</button>
+  <p id="pesanAkun"></p>
+ </div>
+</div>
 <nav class="bottom">
  <button onclick="window.scrollTo(0,0)">🏠 Beranda</button>
  <button onclick="document.getElementById('search').focus()">🔎 Cari</button>
@@ -409,5 +424,67 @@ Name	API Key
 default
 No description
 sb_publishable_ejDMdABMnKlJi1IqnqdrNQ_cvMF-9YJ
+  <script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://ptttahoprywgtxjxdxzj.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "MASUKKAN_PUBLISHABLE_KEY_KAMU";
+
+window.supabaseClient = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);window.bukaAkun = function() {
+  document.getElementById("akunBox").style.display = "flex";
+};
+
+window.tutupAkun = function() {
+  document.getElementById("akunBox").style.display = "none";
+};
+
+window.daftarAkun = async function() {
+  const email = document.getElementById("emailAkun").value;
+  const password = document.getElementById("passwordAkun").value;
+  const username = document.getElementById("usernameAkun").value;
+  const pesan = document.getElementById("pesanAkun");
+
+  if (!email || !password || !username) {
+    pesan.textContent = "Isi semua kolom terlebih dahulu.";
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    pesan.textContent = error.message;
+    return;
+  }
+
+  if (data.user) {
+    pesan.textContent = "Pendaftaran berhasil. Periksa email untuk konfirmasi.";
+  }
+};
+
+window.masukAkun = async function() {
+  const email = document.getElementById("emailAkun").value;
+  const password = document.getElementById("passwordAkun").value;
+  const pesan = document.getElementById("pesanAkun");
+
+  const { error } = await window.supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  pesan.textContent = error ? error.message : "Login berhasil!";
+};
+
+window.keluarAkun = async function() {
+  const { error } = await window.supabaseClient.auth.signOut();
+  document.getElementById("pesanAkun").textContent =
+    error ? error.message : "Kamu sudah logout.";
+};
+</script>
 </body>
 </html>
