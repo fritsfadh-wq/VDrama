@@ -206,7 +206,56 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL = 'https://ptttahoprywgtxjxdxzj.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ejDMdABMnKlJi1IqnqdrNQ_cvMF-9YJ';
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+async function ambilDramaDariSupabase(){
+  const { data, error } = await supabaseClient
+    .from('dramas')
+    .select('*')
+    .order('id', { ascending: true });
 
+  if(error){
+    console.error('Gagal mengambil drama:', error.message);
+    return;
+  }
+
+  if(data && data.length > 0){
+    const dramaLokal = dramaData;
+
+    dramaData = data.map(d => {
+      const lama = dramaLokal.find(x => x.id === d.id);
+
+      return {
+        id: d.id,
+        nama: d.title,
+        kategori: d.category || 'Lainnya',
+        episode: lama?.episode || 0,
+        poster: d.poster_url || lama?.poster || '',
+        deskripsi: d.description || ''
+      };
+    });
+
+    tampilkanDrama();
+    tampilkanFavorit();
+    tampilkanRiwayat();
+  }
+}
+
+  if(error){
+    console.error('Gagal mengambil drama:', error.message);
+    return;
+  }
+
+  if(data && data.length > 0){
+    dramaData = data.map(d => ({
+      id: d.id,
+      nama: d.title,
+      kategori: d.category || 'Lainnya',
+      episode: 0,
+      poster: d.poster_url || '',
+      deskripsi: d.description || ''
+    }));
+    tampilkanDrama();
+  }
+}
 function pesan(teks){
  const el=document.getElementById('pesanAkun');
  if(el) el.textContent=teks;
@@ -267,8 +316,7 @@ async function perbaruiAkun(){
    Poster di bawah masih memakai gambar contoh sementara.
    Setelah poster ilustrasi final diunggah ke repo, ganti URL poster dengan alamat file poster tersebut. */
 
-const dramaData=[
- {
+let dramaData=[
   id:1,
   nama:'Cinta Sang Kaisar',
   kategori:'Romance',
@@ -400,10 +448,17 @@ window.bukaAkun=function(){document.getElementById('modalAkun').style.display='b
 window.tutupModal=function(id){document.getElementById(id).style.display='none';};
 
 async function mulai(){
- tampilkanDrama();tampilkanFavorit();tampilkanRiwayat();
- await perbaruiAkun();
+  await ambilDramaDariSupabase();
+  tampilkanDrama();
+  tampilkanFavorit();
+  tampilkanRiwayat();
+  await perbaruiAkun();
 }
-supabaseClient.auth.onAuthStateChange(()=>{setTimeout(perbaruiAkun,0);});
+
+supabaseClient.auth.onAuthStateChange(()=>{
+  setTimeout(perbaruiAkun,0);
+});
+
 mulai();
 </script>
 </body>
