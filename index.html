@@ -49,6 +49,61 @@ nav button.active{color:var(--light);font-weight:bold}
 .bottom-nav button:focus,nav button:focus{color:var(--light)}
 footer{text-align:center;padding:25px;background:var(--panel);color:#899ab1;margin-top:25px;font-size:12px}
 @media(min-width:700px){.drama-list{grid-template-columns:repeat(4,1fr)}.poster{height:280px}.banner{padding:42px 30px}}
+ 
+/* TAMPILAN KARTU DRAMA VDRAMA */
+.drama-list {
+ display: grid;
+ grid-template-columns: repeat(2, minmax(0, 1fr));
+ gap: 14px;
+ padding: 12px;
+}
+
+.drama {
+ background: #0b1830;
+ border: 1px solid #183c68;
+ border-radius: 12px;
+ overflow: hidden;
+ cursor: pointer;
+ transition: transform .2s ease;
+}
+
+.drama:active {
+ transform: scale(.97);
+}
+
+.poster {
+ display: block;
+ width: 100%;
+ aspect-ratio: 2 / 3;
+ object-fit: cover;
+}
+
+.drama-info {
+ padding: 10px;
+ color: #fff;
+}
+
+.drama-info h3 {
+ font-size: 14px;
+ margin: 0 0 7px;
+}
+
+.drama-info p {
+ color: #a9c5e8;
+ font-size: 12px;
+ margin: 0 0 7px;
+}
+
+.stars {
+ color: #ffd45a;
+ font-size: 13px;
+}
+
+@media (min-width: 700px) {
+ .drama-list {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+ }
+         }
 </style>
 </head>
 <body>
