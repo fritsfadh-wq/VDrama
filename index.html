@@ -413,27 +413,19 @@ function filterDrama(category,button){
  document.querySelectorAll('.card').forEach(card=>{
   card.style.display=(category==='Semua'||card.dataset.category===category)?'block':'none';
  });
-}
-</script>
-  const Publishable key
-This key is safe to use in a browser if you have enabled Row Level Security (RLS) for your tables and configured policies.
 
-
-New publishable key
-Name	API Key	
-default
-No description
-sb_publishable_ejDMdABMnKlJi1IqnqdrNQ_cvMF-9YJ
-  <script type="module">
+<script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL = "https://ptttahoprywgtxjxdxzj.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "MASUKKAN_PUBLISHABLE_KEY_KAMU";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ejDMdABMnKlJi1IqnqdrNQ_cvMF-9YJ";
 
 window.supabaseClient = createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
-);window.bukaAkun = function() {
+);
+
+window.bukaAkun = function() {
   document.getElementById("akunBox").style.display = "flex";
 };
 
@@ -452,19 +444,17 @@ window.daftarAkun = async function() {
     return;
   }
 
-  const { data, error } = await window.supabaseClient.auth.signUp({
+  const { error } = await window.supabaseClient.auth.signUp({
     email,
-    password
+    password,
+    options: {
+      data: { username }
+    }
   });
 
-  if (error) {
-    pesan.textContent = error.message;
-    return;
-  }
-
-  if (data.user) {
-    pesan.textContent = "Pendaftaran berhasil. Periksa email untuk konfirmasi.";
-  }
+  pesan.textContent = error
+    ? error.message
+    : "Pendaftaran berhasil. Periksa email kamu.";
 };
 
 window.masukAkun = async function() {
@@ -482,6 +472,7 @@ window.masukAkun = async function() {
 
 window.keluarAkun = async function() {
   const { error } = await window.supabaseClient.auth.signOut();
+
   document.getElementById("pesanAkun").textContent =
     error ? error.message : "Kamu sudah logout.";
 };
