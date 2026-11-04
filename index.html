@@ -1,202 +1,98 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VDrama - Drama China</title>
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#080e19;color:white;
- font-family:Arial,sans-serif;padding-bottom:65px
-}
-header{
- background:#101c30;padding:15px;
- display:flex;align-items:center;
- justify-content:space-between;
- position:sticky;top:0;z-index:10
-}
-.logo{font-size:28px;font-weight:bold;color:#35a5ff}
-button{cursor:pointer;border:0}
-.header-btn,.btn{
- background:#147ce5;color:white;
- padding:10px 15px;border-radius:8px
-}
-nav{
- display:flex;gap:22px;overflow-x:auto;
- background:#14243b;padding:14px;
- white-space:nowrap
-}
-nav button{
- color:white;background:none;font-size:14px
-}
+:root{--bg:#080e19;--panel:#101c30;--panel2:#14243b;--blue:#147ce5;--light:#35a5ff;--muted:#a9bedb}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif;padding-bottom:70px}
+button{cursor:pointer;border:0;font:inherit}
+header{background:var(--panel);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;border-bottom:1px solid #263b59}
+.logo{font-size:28px;font-weight:800;color:var(--light);letter-spacing:.3px}
+.header-btn,.btn{background:var(--blue);color:white;padding:10px 15px;border-radius:8px}
+nav{display:flex;gap:22px;overflow-x:auto;background:var(--panel2);padding:14px 16px;white-space:nowrap}
+nav button{color:white;background:none;font-size:14px}
+nav button.active{color:var(--light);font-weight:bold}
 .search{padding:15px}
-.search input,.form input{
- width:100%;padding:13px;border:1px solid #30435d;
- border-radius:8px;background:#17263d;color:white
-}
-.banner{
- margin:5px 15px 20px;padding:30px 20px;
- border-radius:13px;
- background:linear-gradient(120deg,#0756a8,#101b30)
-}
+.search input,.form input{width:100%;padding:13px;border:1px solid #30435d;border-radius:8px;background:#17263d;color:white;font-size:14px}
+.banner{margin:5px 15px 20px;padding:30px 20px;border-radius:13px;background:linear-gradient(120deg,#0756a8,#101b30);border:1px solid #1e5791}
 .banner h1{font-size:26px;margin:0 0 10px}
 .banner p{color:#d5e8ff;line-height:1.5}
 .section-title{padding:0 15px}
 .section-title h2{font-size:19px}
-.drama-list{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;padding:15px
-}
-.drama{
- background:#14243b;border-radius:10px;
- overflow:hidden;cursor:pointer;min-width:0
-}
-.poster{
- width:100%;height:220px;object-fit:cover;
- display:block;background:#1c385e
-}
+.drama-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:15px}
+.drama{background:var(--panel2);border-radius:10px;overflow:hidden;cursor:pointer;min-width:0;border:1px solid #203957}
+.poster{width:100%;height:220px;object-fit:cover;display:block;background:linear-gradient(145deg,#173d69,#111827)}
 .drama-info{padding:10px}
-.drama h3{font-size:14px;margin:0 0 7px}
-.drama p{font-size:12px;color:#a9bedb;margin:0}
+.drama h3{font-size:14px;margin:0 0 7px;line-height:1.35}
+.drama p{font-size:12px;color:var(--muted);margin:0}
 .stars{color:#ffc64a;margin-top:8px;font-size:13px}
-.empty{
- text-align:center;color:#9db0ca;
- padding:25px;grid-column:1/-1
-}
-.modal{
- display:none;position:fixed;inset:0;
- background:#000d;z-index:30;
- overflow-y:auto;padding:15px
-}
-.modal-content{
- background:#101c30;border-radius:13px;
- padding:20px;max-width:500px;margin:25px auto;
- position:relative
-}
-.close{
- position:absolute;right:15px;top:12px;
- background:#263c59;color:white;
- border-radius:7px;padding:8px 12px
-}
-.modal-poster{
- width:100%;height:260px;object-fit:cover;
- border-radius:9px
-}
+.empty{text-align:center;color:#9db0ca;padding:25px;grid-column:1/-1}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:30;overflow-y:auto;padding:15px}
+.modal-content{background:var(--panel);border:1px solid #263b59;border-radius:13px;padding:20px;max-width:500px;margin:25px auto;position:relative}
+.close{position:absolute;right:15px;top:12px;background:#263c59;color:white;border-radius:7px;padding:8px 12px}
+.modal-poster{width:100%;height:260px;object-fit:cover;border-radius:9px;background:#173d69}
 .btn{margin:5px 3px 5px 0}
-.secondary{
- background:#263c59;color:white;
- padding:10px 13px;border-radius:7px;margin:4px
-}
+.secondary{background:#263c59;color:white;padding:10px 13px;border-radius:7px;margin:4px}
 .form{display:grid;gap:12px;margin-top:20px}
-.form button{
- background:#147ce5;color:white;
- padding:13px;border-radius:8px
-}
-.message{color:#65b7ff;font-size:13px}
-.profile{
- background:#192b44;padding:15px;
- border-radius:10px;margin:15px 0
-}
-.episode{
- background:#1b2c45;padding:12px;
- margin:8px 0;border-radius:8px;
- display:flex;justify-content:space-between;
- align-items:center
-}
-.episode button{
- background:#147ce5;color:white;
- padding:8px 13px;border-radius:6px
-}
-.video-box{
- width:100%;aspect-ratio:16/9;
- background:black;border-radius:9px;
- display:flex;align-items:center;
- justify-content:center;color:#b9c9df;
- text-align:center;padding:15px
-}
+.form button{background:var(--blue);color:white;padding:13px;border-radius:8px}
+.message{color:#65b7ff;font-size:13px;line-height:1.5}
+.profile{background:#192b44;padding:15px;border-radius:10px;margin:15px 0;overflow-wrap:anywhere}
+.episode{background:#1b2c45;padding:12px;margin:8px 0;border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.episode button{background:var(--blue);color:white;padding:8px 13px;border-radius:6px}
+.video-box{width:100%;aspect-ratio:16/9;background:#000;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#b9c9df;text-align:center;padding:15px}
 .video-box video{width:100%;max-height:100%}
-.bottom-nav{
- position:fixed;bottom:0;left:0;right:0;
- background:#101c30;display:flex;
- justify-content:space-around;padding:12px 5px;
- z-index:15;border-top:1px solid #263b59
-}
-.bottom-nav button{
- color:white;background:none;font-size:12px
-}
-footer{
- text-align:center;padding:25px;
- background:#101c30;color:#899ab1;
- margin-top:25px;font-size:12px
-}
-@media(min-width:700px){
- .drama-list{grid-template-columns:repeat(4,1fr)}
- .poster{height:280px}
-}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--panel);display:flex;justify-content:space-around;padding:12px 5px;z-index:15;border-top:1px solid #263b59}
+.bottom-nav button{color:white;background:none;font-size:12px;line-height:1.5}
+.bottom-nav button:focus,nav button:focus{color:var(--light)}
+footer{text-align:center;padding:25px;background:var(--panel);color:#899ab1;margin-top:25px;font-size:12px}
+@media(min-width:700px){.drama-list{grid-template-columns:repeat(4,1fr)}.poster{height:280px}.banner{padding:42px 30px}}
 </style>
 </head>
-
 <body>
-
 <header>
  <div class="logo">VDrama</div>
- <button class="header-btn" onclick="bukaAkun()">
-  <span id="tombolAkun">Login</span>
- </button>
+ <button class="header-btn" onclick="bukaAkun()"><span id="tombolAkun">Login</span></button>
 </header>
 
-<nav>
- <button onclick="filterKategori('Semua')">Beranda</button>
- <button onclick="filterKategori('Romance')">Romance</button>
- <button onclick="filterKategori('Action')">Action</button>
- <button onclick="filterKategori('Fantasy')">Fantasy</button>
- <button onclick="filterKategori('Comedy')">Comedy</button>
+<nav aria-label="Kategori drama">
+ <button class="active" onclick="filterKategori('Semua',this)">Beranda</button>
+ <button onclick="filterKategori('Romance',this)">Romance</button>
+ <button onclick="filterKategori('Action',this)">Action</button>
+ <button onclick="filterKategori('Fantasy',this)">Fantasy</button>
+ <button onclick="filterKategori('Comedy',this)">Comedy</button>
 </nav>
 
 <div class="search">
- <input id="cari" placeholder="Cari drama favoritmu..."
- oninput="cariDrama()">
+ <input id="cari" placeholder="Cari drama favoritmu..." oninput="cariDrama()" aria-label="Cari drama">
 </div>
 
 <section class="banner">
  <h1>Selamat Datang di VDrama</h1>
  <p>Nikmati koleksi drama China favoritmu.</p>
- <button class="btn" onclick="document.getElementById('terbaru').scrollIntoView()">
-  Jelajahi Drama
- </button>
+ <button class="btn" onclick="document.getElementById('terbaru').scrollIntoView({behavior:'smooth'})">Jelajahi Drama</button>
 </section>
 
-<div class="section-title" id="terbaru">
- <h2>Drama Terbaru</h2>
-</div>
+<div class="section-title" id="terbaru"><h2>Drama Terbaru</h2></div>
 <div class="drama-list" id="daftarDrama"></div>
 
-<div class="section-title">
- <h2>Drama Favorit Saya ♥</h2>
-</div>
+<div class="section-title"><h2>Drama Favorit Saya ♥</h2></div>
 <div class="drama-list" id="daftarFavorit"></div>
 
-<div class="section-title">
- <h2>Riwayat Tontonan</h2>
-</div>
+<div class="section-title"><h2>Riwayat Tontonan</h2></div>
 <div class="drama-list" id="riwayat"></div>
 
-<footer>
- VDrama © 2026<br>
- Platform Drama China
-</footer>
+<footer>VDrama © 2026<br>Platform Drama China</footer>
 
 <div class="bottom-nav">
  <button onclick="filterKategori('Semua')">⌂<br>Beranda</button>
- <button onclick="tampilkanFavorit()">♥<br>Favorit</button>
- <button onclick="tampilkanRiwayat()">◷<br>Riwayat</button>
+ <button onclick="tampilkanFavorit();document.getElementById('daftarFavorit').scrollIntoView({behavior:'smooth'})">♥<br>Favorit</button>
+ <button onclick="tampilkanRiwayat();document.getElementById('riwayat').scrollIntoView({behavior:'smooth'})">◷<br>Riwayat</button>
  <button onclick="bukaAkun()">♙<br>Akun</button>
 </div>
 
-<!-- DETAIL DRAMA -->
 <div class="modal" id="modalDetail">
  <div class="modal-content">
   <button class="close" onclick="tutupModal('modalDetail')">✕</button>
@@ -204,368 +100,220 @@ footer{
  </div>
 </div>
 
-<!-- AKUN -->
 <div class="modal" id="modalAkun">
  <div class="modal-content">
   <button class="close" onclick="tutupModal('modalAkun')">✕</button>
   <h2>Akun VDrama</h2>
-
   <div id="profilPengguna" style="display:none">
-   <div class="profile">
-    <h3>Profil Saya</h3>
-    <p id="namaProfil"></p>
-    <p id="emailProfil"></p>
-   </div>
+   <div class="profile"><h3>Profil Saya</h3><p id="namaProfil"></p><p id="emailProfil"></p></div>
    <button class="btn" onclick="keluarAkun()">Logout</button>
   </div>
-
   <div id="formAkun">
    <div class="form">
-    <input id="username" placeholder="Nama pengguna">
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
+    <input id="username" placeholder="Nama pengguna" autocomplete="username">
+    <input id="email" type="email" placeholder="Email" autocomplete="email">
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password">
     <button onclick="daftarAkun()">Daftar Akun</button>
     <button onclick="masukAkun()">Login</button>
    </div>
   </div>
-  <p class="message" id="pesanAkun"></p>
+  <p class="message" id="pesanAkun" aria-live="polite"></p>
  </div>
 </div>
 
-<!-- PEMUTAR VIDEO -->
 <div class="modal" id="modalVideo">
  <div class="modal-content">
   <button class="close" onclick="tutupModal('modalVideo')">✕</button>
   <h3 id="judulVideo">Pemutar Video</h3>
-  <div class="video-box" id="videoBox">
-   Video belum tersedia.
-  </div>
+  <div class="video-box" id="videoBox">Video belum tersedia.</div>
  </div>
 </div>
 
 <script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-import { createClient }
-from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+/* KONEKSI SUPABASE: gunakan URL dan Publishable Key milik proyek Anda */
+const SUPABASE_URL = 'https://ptttahoprywgtxjxdxzj.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ejDMdABMnKlJi1IqnqdrNQ_cvMF-9YJ';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-/* SUPABASE */
-const SUPABASE_URL =
-'https://ptttahoprywgtxjxdxzj.supabase.co';
-
-const SUPABASE_PUBLISHABLE_KEY =
-'sb_publishable_ejDMdABMnKlJi1IqnqdrNQ_cvMF-9YJ';
-
-const supabaseClient = createClient(
- SUPABASE_URL,
- SUPABASE_PUBLISHABLE_KEY
-);
-
-/* PESAN */
 function pesan(teks){
- document.getElementById('pesanAkun').textContent=teks;
+ const el=document.getElementById('pesanAkun');
+ if(el) el.textContent=teks;
 }
 
-/* DAFTAR */
 window.daftarAkun=async function(){
  const username=document.getElementById('username').value.trim();
  const email=document.getElementById('email').value.trim();
  const password=document.getElementById('password').value;
-
- if(!username||!email||!password){
-  pesan('Lengkapi semua data.');
-  return;
- }
-
- if(password.length<6){
-  pesan('Password minimal 6 karakter.');
-  return;
- }
-
+ if(!username||!email||!password){pesan('Lengkapi semua data.');return;}
+ if(password.length<6){pesan('Password minimal 6 karakter.');return;}
  try{
   const {error}=await supabaseClient.auth.signUp({
-   email:email,
-   password:password,
-   options:{data:{username:username}}
+   email,password,options:{data:{username}}
   });
-
   if(error)throw error;
-
   pesan('Pendaftaran berhasil. Periksa email untuk konfirmasi jika diminta.');
- }catch(error){
-  pesan(error.message);
- }
+ }catch(error){pesan(error.message||'Pendaftaran belum berhasil.');}
 };
 
-/* LOGIN */
 window.masukAkun=async function(){
  const email=document.getElementById('email').value.trim();
  const password=document.getElementById('password').value;
-
- if(!email||!password){
-  pesan('Masukkan email dan password.');
-  return;
- }
-
+ if(!email||!password){pesan('Masukkan email dan password.');return;}
  try{
-  const {error}=await supabaseClient.auth.signInWithPassword({
-   email:email,password:password
-  });
-
+  const {error}=await supabaseClient.auth.signInWithPassword({email,password});
   if(error)throw error;
-
   pesan('Login berhasil.');
   await perbaruiAkun();
- }catch(error){
-  pesan(error.message);
- }
+ }catch(error){pesan(error.message||'Login belum berhasil.');}
 };
 
-/* LOGOUT */
 window.keluarAkun=async function(){
- const {error}=await supabaseClient.auth.signOut();
-
- if(error){
-  pesan(error.message);
-  return;
- }
-
- await perbaruiAkun();
- pesan('Berhasil logout.');
+ try{
+  const {error}=await supabaseClient.auth.signOut();
+  if(error)throw error;
+  await perbaruiAkun();
+  pesan('Berhasil logout.');
+ }catch(error){pesan(error.message||'Logout belum berhasil.');}
 };
 
-/* PROFIL */
 async function perbaruiAkun(){
- const {data}=await supabaseClient.auth.getUser();
- const user=data.user;
-
- document.getElementById('profilPengguna').style.display=
- user?'block':'none';
-
- document.getElementById('formAkun').style.display=
- user?'none':'block';
-
- document.getElementById('tombolAkun').textContent=
- user?'Akun':'Login';
-
- if(user){
-  document.getElementById('namaProfil').textContent=
-  'Nama: '+(user.user_metadata.username||'Pengguna VDrama');
-
-  document.getElementById('emailProfil').textContent=
-  'Email: '+user.email;
- }
+ try{
+  const {data,error}=await supabaseClient.auth.getUser();
+  if(error)throw error;
+  const user=data.user;
+  document.getElementById('profilPengguna').style.display=user?'block':'none';
+  document.getElementById('formAkun').style.display=user?'none':'block';
+  document.getElementById('tombolAkun').textContent=user?'Akun':'Login';
+  if(user){
+   document.getElementById('namaProfil').textContent='Nama: '+(user.user_metadata?.username||'Pengguna VDrama');
+   document.getElementById('emailProfil').textContent='Email: '+(user.email||'');
+  }
+ }catch(error){console.error('Gagal memuat profil:',error);}
 }
 
-/* DATA DRAMA CONTOH */
+/* DATA DRAMA
+   Poster di bawah masih memakai gambar contoh sementara.
+   Setelah poster ilustrasi final diunggah ke repo, ganti URL poster dengan alamat file poster tersebut. */
 const dramaData=[
- {
-  id:1,nama:'Cinta Sang Kaisar',
-  kategori:'Romance',episode:24,
+ {id:1,nama:'Cinta Sang Kaisar',kategori:'Romance',episode:24,
   poster:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600',
-  deskripsi:'Kisah cinta seorang gadis dan seorang kaisar.'
- },
- {
-  id:2,nama:'Raja Naga',
-  kategori:'Fantasy',episode:30,
+  deskripsi:'Kisah cinta seorang gadis dan seorang kaisar.'},
+ {id:2,nama:'Raja Naga',kategori:'Fantasy',episode:30,
   poster:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600',
-  deskripsi:'Petualangan seorang pemuda dalam dunia penuh misteri.'
- },
- {
-  id:3,nama:'Cinta di Istana',
-  kategori:'Romance',episode:36,
+  deskripsi:'Petualangan seorang pemuda dalam dunia penuh misteri.'},
+ {id:3,nama:'Cinta di Istana',kategori:'Romance',episode:36,
   poster:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600',
-  deskripsi:'Kisah cinta dan persaingan di lingkungan istana.'
- },
- {
-  id:4,nama:'Jodoh Tak Terduga',
-  kategori:'Comedy',episode:20,
+  deskripsi:'Kisah cinta dan persaingan di lingkungan istana.'},
+ {id:4,nama:'Jodoh Tak Terduga',kategori:'Comedy',episode:20,
   poster:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600',
-  deskripsi:'Pertemuan tidak terduga membawa kisah lucu dan romantis.'
- }
+  deskripsi:'Pertemuan tidak terduga membawa kisah lucu dan romantis.'}
 ];
 
-/* PENYIMPANAN LOKAL */
+/* PENYIMPANAN LOKAL UNTUK FAVORIT, RATING, DAN RIWAYAT */
 function ambilData(kunci){
  try{
-  return JSON.parse(localStorage.getItem(kunci)||'[]');
- }catch{
-  return [];
- }
+  const hasil=JSON.parse(localStorage.getItem(kunci)||'[]');
+  return Array.isArray(hasil)?hasil:[];
+ }catch{return [];}
 }
-
-function simpanData(kunci,data){
- localStorage.setItem(kunci,JSON.stringify(data));
-}
+function simpanData(kunci,data){localStorage.setItem(kunci,JSON.stringify(data));}
 
 /* KARTU DRAMA */
 function buatKartu(d){
  const rating=ambilData('rating_'+d.id);
- const nilai=rating.length?
- (rating.reduce((a,b)=>a+b,0)/rating.length).toFixed(1):'Baru';
-
- return `
- <div class="drama" onclick="bukaDetail(${d.id})">
-  <img class="poster" src="${d.poster}" alt="${d.nama}">
-  <div class="drama-info">
-   <h3>${d.nama}</h3>
-   <p>${d.kategori} • ${d.episode} Episode</p>
-   <div class="stars">★ ${nilai}</div>
-  </div>
+ const nilai=rating.length?(rating.reduce((a,b)=>a+b,0)/rating.length).toFixed(1):'Baru';
+ return `<div class="drama" onclick="bukaDetail(${d.id})">
+  <img class="poster" src="${d.poster}" alt="${d.nama}" loading="lazy">
+  <div class="drama-info"><h3>${d.nama}</h3>
+  <p>${d.kategori} • ${d.episode} Episode</p><div class="stars">★ ${nilai}</div></div>
  </div>`;
 }
 
-/* TAMPILKAN DRAMA */
+let kategoriAktif='Semua';
+window.cariDrama=function(){tampilkanDrama();};
+window.filterKategori=function(k,tombol){
+ kategoriAktif=k;
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ if(tombol)tombol.classList.add('active');
+ tampilkanDrama();
+};
+
 function tampilkanDrama(){
- const cari=document.getElementById('cari').value.toLowerCase();
-
- const hasil=dramaData.filter(d=>
-  d.nama.toLowerCase().includes(cari)&&
-  (kategoriAktif==='Semua'||d.kategori===kategoriAktif)
- );
-
- document.getElementById('daftarDrama').innerHTML=
- hasil.length?hasil.map(buatKartu).join(''):
- '<div class="empty">Drama tidak ditemukan.</div>';
+ const input=document.getElementById('cari');
+ const cari=(input?.value||'').toLowerCase();
+ const hasil=dramaData.filter(d=>d.nama.toLowerCase().includes(cari)&&
+  (kategoriAktif==='Semua'||d.kategori===kategoriAktif));
+ document.getElementById('daftarDrama').innerHTML=hasil.length?
+  hasil.map(buatKartu).join(''):'<div class="empty">Drama tidak ditemukan.</div>';
 }
 
-let kategoriAktif='Semua';
-
-window.cariDrama=function(){
- tampilkanDrama();
-};
-
-window.filterKategori=function(k){
- kategoriAktif=k;
- tampilkanDrama();
-};
-
-/* DETAIL */
 window.bukaDetail=function(id){
- const d=dramaData.find(x=>x.id===id);
- if(!d)return;
-
+ const d=dramaData.find(x=>x.id===id);if(!d)return;
  const favorit=ambilData('favorit');
-
- let html=`
- <img class="modal-poster" src="${d.poster}">
- <h2>${d.nama}</h2>
- <p>${d.kategori} • ${d.episode} Episode</p>
- <p>${d.deskripsi}</p>
-
- <button class="btn" onclick="ubahFavorit(${d.id})">
- ${favorit.includes(d.id)?'♥ Hapus Favorit':'♡ Tambah Favorit'}
- </button>
-
- <h3>Beri Rating</h3>
- ${[1,2,3,4,5].map(n=>
- `<button class="secondary" onclick="beriRating(${d.id},${n})">★ ${n}</button>`
- ).join('')}
-
- <h3>Daftar Episode</h3>
- `;
-
+ let html=`<img class="modal-poster" src="${d.poster}" alt="${d.nama}">
+  <h2>${d.nama}</h2><p>${d.kategori} • ${d.episode} Episode</p><p>${d.deskripsi}</p>
+  <button class="btn" onclick="ubahFavorit(${d.id})">${favorit.includes(d.id)?'♥ Hapus Favorit':'♡ Tambah Favorit'}</button>
+  <h3>Beri Rating</h3>
+  ${[1,2,3,4,5].map(n=>`<button class="secondary" onclick="beriRating(${d.id},${n})">★ ${n}</button>`).join('')}
+  <h3>Daftar Episode</h3>`;
  for(let i=1;i<=d.episode;i++){
-  html+=`
-  <div class="episode">
-   <span>Episode ${i}</span>
-   <button onclick="tonton(${d.id},${i})">Tonton</button>
-  </div>`;
+  html+=`<div class="episode"><span>Episode ${i}</span><button onclick="tonton(${d.id},${i})">Tonton</button></div>`;
  }
-
  document.getElementById('isiDetail').innerHTML=html;
  document.getElementById('modalDetail').style.display='block';
 };
 
-/* FAVORIT */
 window.ubahFavorit=function(id){
  let favorit=ambilData('favorit');
-
- if(favorit.includes(id)){
-  favorit=favorit.filter(x=>x!==id);
- }else{
-  favorit.push(id);
- }
-
+ if(favorit.includes(id))favorit=favorit.filter(x=>x!==id);else favorit.push(id);
  simpanData('favorit',favorit);
- tampilkanFavorit();
- bukaDetail(id);
+ tampilkanFavorit();bukaDetail(id);
 };
-
 function tampilkanFavorit(){
  const favorit=ambilData('favorit');
  const hasil=dramaData.filter(d=>favorit.includes(d.id));
-
- document.getElementById('daftarFavorit').innerHTML=
- hasil.length?hasil.map(buatKartu).join(''):
- '<div class="empty">Belum ada drama favorit.</div>';
+ document.getElementById('daftarFavorit').innerHTML=hasil.length?
+  hasil.map(buatKartu).join(''):'<div class="empty">Belum ada drama favorit.</div>';
 }
-
 window.tampilkanFavorit=tampilkanFavorit;
 
-/* RATING */
 window.beriRating=function(id,nilai){
  simpanData('rating_'+id,[...ambilData('rating_'+id),nilai]);
  alert('Terima kasih atas rating kamu!');
- bukaDetail(id);
- tampilkanDrama();
+ bukaDetail(id);tampilkanDrama();tampilkanFavorit();tampilkanRiwayat();
 };
 
-/* RIWAYAT */
 function tampilkanRiwayat(){
  const riwayat=ambilData('riwayat');
  const hasil=riwayat.map(id=>dramaData.find(d=>d.id===id)).filter(Boolean);
-
- document.getElementById('riwayat').innerHTML=
- hasil.length?hasil.map(buatKartu).join(''):
- '<div class="empty">Belum ada riwayat tontonan.</div>';
+ document.getElementById('riwayat').innerHTML=hasil.length?
+  hasil.map(buatKartu).join(''):'<div class="empty">Belum ada riwayat tontonan.</div>';
 }
-
 window.tampilkanRiwayat=tampilkanRiwayat;
 
-/* TONTON EPISODE */
 window.tonton=function(id,episode){
- const d=dramaData.find(x=>x.id===id);
- if(!d)return;
-
+ const d=dramaData.find(x=>x.id===id);if(!d)return;
  let riwayat=ambilData('riwayat');
  riwayat=[id,...riwayat.filter(x=>x!==id)];
  simpanData('riwayat',riwayat);
-
- document.getElementById('judulVideo').textContent=
- d.nama+' - Episode '+episode;
-
- document.getElementById('videoBox').textContent=
- 'Video belum tersedia. Admin perlu menambahkan sumber video yang berizin.';
-
+ document.getElementById('judulVideo').textContent=d.nama+' - Episode '+episode;
+ document.getElementById('videoBox').textContent='Video belum tersedia. Admin perlu menambahkan sumber video yang berizin.';
  tutupModal('modalDetail');
  document.getElementById('modalVideo').style.display='block';
-
  tampilkanRiwayat();
 };
 
-/* MODAL */
-window.bukaAkun=function(){
- document.getElementById('modalAkun').style.display='block';
-};
+window.bukaAkun=function(){document.getElementById('modalAkun').style.display='block';};
+window.tutupModal=function(id){document.getElementById(id).style.display='none';};
 
-window.tutupModal=function(id){
- document.getElementById(id).style.display='none';
-};
-
-/* MULAI */
 async function mulai(){
- tampilkanDrama();
- tampilkanFavorit();
- tampilkanRiwayat();
+ tampilkanDrama();tampilkanFavorit();tampilkanRiwayat();
  await perbaruiAkun();
 }
-
-supabaseClient.auth.onAuthStateChange(()=>{
- setTimeout(perbaruiAkun,0);
-});
-
+supabaseClient.auth.onAuthStateChange(()=>{setTimeout(perbaruiAkun,0);});
 mulai();
-
 </script>
 </body>
 </html>
