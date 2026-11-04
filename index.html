@@ -143,6 +143,42 @@ footer{text-align:center;padding:25px;background:var(--panel);color:#899ab1;marg
  <button class="btn" onclick="document.getElementById('terbaru').scrollIntoView({behavior:'smooth'})">
   Jelajahi Drama
  </button>
+ <div id="panelAdmin" style="display:none;margin-top:20px">
+  <h3>⚙️ Admin VDrama</h3>
+
+  <h4>Tambah Episode</h4>
+
+  <div class="form">
+    <select id="pilihDrama">
+      <option value="">Pilih Drama</option>
+    </select>
+
+    <input
+      id="nomorEpisode"
+      type="number"
+      min="1"
+      placeholder="Nomor Episode"
+    >
+
+    <input
+      id="judulEpisode"
+      type="text"
+      placeholder="Judul Episode"
+    >
+
+    <input
+      id="videoEpisode"
+      type="url"
+      placeholder="Link video berizin"
+    >
+
+    <button class="btn" onclick="tambahEpisode()">
+      Simpan Episode
+    </button>
+  </div>
+
+  <p id="pesanAdmin" class="message"></p>
+</div>
 </section>
 
 <div class="section-title" id="terbaru"><h2>Drama Terbaru</h2></div>
@@ -309,6 +345,8 @@ async function perbaruiAkun(){
    document.getElementById('namaProfil').textContent='Nama: '+(user.user_metadata?.username||'Pengguna VDrama');
    document.getElementById('emailProfil').textContent='Email: '+(user.email||'');
   }
+  }
+  await cekAdmin();
  }catch(error){console.error('Gagal memuat profil:',error);}
 }
 
@@ -446,7 +484,86 @@ window.tonton=function(id,episode){
 
 window.bukaAkun=function(){document.getElementById('modalAkun').style.display='block';};
 window.tutupModal=function(id){document.getElementById(id).style.display='none';};
+async function cekAdmin(){
+  const panel = document.getElementById('panelAdmin');
+  const pilihan = document.getElementById('pilihDrama');
 
+  if(!panel || !pilihan) return;
+
+  panel.style.display = 'none';
+
+  const { data: userData } = await supabaseClient.auth.getUser();
+  const user = userData?.user;
+
+  if(!user) return;
+
+  const { data, error } = await supabaseClient
+    .from('admins')
+    .select('user_id')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if(error){
+    console.error('Pemeriksaan admin gagal:', error.message);
+    return;
+  }
+
+  if(!data) return;
+
+  panel.style.display = 'block';
+
+  const { data: daftar, error: errorDrama } = await supabaseClient
+    .from('dramas')
+    .select('id,title')
+    .order('title');
+
+  if(errorDrama){
+    console.error(errorDrama.message);
+    return;
+  }
+
+  pilihan.innerHTML = '<option value="">Pilih Drama</option>';
+
+  (daftar || []).forEach(d => {
+    const opsi = document.createElement('option');
+    opsi.value = d.id;
+    opsi.textContent = d.title;
+    pilihan.appendChild(opsi);
+  });
+}
+
+window.tambahEpisode = async function(){
+  const dramaId = document.getElementById('pilihDrama').value;
+  const nomor = Number(document.getElementById('nomorEpisode').value);
+  const judul = document.getElementById('judulEpisode').value.trim();
+  const video = document.getElementById('videoEpisode').value.trim();
+  const pesan = document.getElementById('pesanAdmin');
+
+  if(!dramaId || !nomor || nomor < 1 || !judul || !video){
+    pesan.textContent = 'Lengkapi semua data episode.';
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from('episodes')
+    .insert({
+      drama_id: Number(dramaId),
+      episode_number: nomor,
+      title: judul,
+      video_url: video
+    });
+
+  if(error){
+    pesan.textContent = 'Gagal menyimpan: ' + error.message;
+    return;
+  }
+
+  pesan.textContent = 'Episode berhasil disimpan!';
+
+  document.getElementById('nomorEpisode').value = '';
+  document.getElementById('judulEpisode').value = '';
+  document.getElementById('videoEpisode').value = '';
+};
 async function mulai(){
   await ambilDramaDariSupabase();
   tampilkanDrama();
