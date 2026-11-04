@@ -69,10 +69,25 @@ footer{text-align:center;padding:25px;background:var(--panel);color:#899ab1;marg
  <input id="cari" placeholder="Cari drama favoritmu..." oninput="cariDrama()" aria-label="Cari drama">
 </div>
 
-<section class="banner">
+
+<section class="banner" style="
+ background:
+ linear-gradient(90deg, rgba(2,10,28,.95), rgba(2,10,28,.25)),
+ url('cinta-sang-kaisar.png') center/cover no-repeat;
+ min-height:280px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ padding:30px;
+ color:white;
+ border:1px solid #168cff;
+ border-radius:18px;
+">
  <h1>Selamat Datang di VDrama</h1>
  <p>Nikmati koleksi drama China favoritmu.</p>
- <button class="btn" onclick="document.getElementById('terbaru').scrollIntoView({behavior:'smooth'})">Jelajahi Drama</button>
+ <button class="btn" onclick="document.getElementById('terbaru').scrollIntoView({behavior:'smooth'})">
+  Jelajahi Drama
+ </button>
 </section>
 
 <div class="section-title" id="terbaru"><h2>Drama Terbaru</h2></div>
