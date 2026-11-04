@@ -200,7 +200,75 @@ function cariDrama() {
     item.style.display = nama.includes(input)
       ? "block" : "none";
   });
+function tampilkanFavorit(){
+ const favorit=ambilData('favorit');
+ const hasil=dramaData.filter(d=>favorit.includes(d.id));
+
+ document.getElementById('daftarFavorit').innerHTML=
+ hasil.length?hasil.map(buatKartu).join(''):
+ '<div class="empty">Belum ada drama favorit.</div>';
 }
+
+window.tampilkanFavorit=tampilkanFavorit;
+
+window.tampilkanRiwayat=function(){
+ const riwayat=ambilData('riwayat');
+ const hasil=riwayat.map(id=>dramaData.find(d=>d.id===id)).filter(Boolean);
+
+ document.getElementById('riwayat').innerHTML=
+ hasil.length?hasil.map(buatKartu).join(''):
+ '<div class="empty">Belum ada riwayat tontonan.</div>';
+};
+
+window.beriRating=function(id,nilai){
+ simpanData('rating_'+id,[
+  ...ambilData('rating_'+id),nilai
+ ]);
+ alert('Terima kasih atas rating kamu!');
+ bukaDetail(id);
+ tampilkanDrama();
+};
+
+window.tonton=function(id,episode){
+ const d=dramaData.find(x=>x.id===id);
+ if(!d)return;
+
+ let riwayat=ambilData('riwayat');
+ riwayat=[id,...riwayat.filter(x=>x!==id)];
+ simpanData('riwayat',riwayat);
+
+ document.getElementById('judulVideo').textContent=
+ d.nama+' - Episode '+episode;
+
+ document.getElementById('videoBox').innerHTML=
+ 'Video belum tersedia.<br>Admin perlu menambahkan sumber video resmi.';
+
+ document.getElementById('modalDetail').style.display='none';
+ document.getElementById('modalVideo').style.display='block';
+
+ tampilkanRiwayat();
+};
+
+window.bukaAkun=function(){
+ document.getElementById('modalAkun').style.display='block';
+};
+
+window.tutupModal=function(id){
+ document.getElementById(id).style.display='none';
+};
+
+async function mulai(){
+ await perbaruiAkun();
+ tampilkanDrama();
+ tampilkanFavorit();
+ tampilkanRiwayat();
+}
+
+supabaseClient.auth.onAuthStateChange(()=>{
+ setTimeout(perbaruiAkun,0);
+});
+
+mulai();
 </script>
 
 </body>
